@@ -32,6 +32,9 @@ app.get('/api/config', (req, res) => {
   });
 });
 
+app.get('/',(req,res)=>{
+  res.send('welcome home')
+})
 
  const start = async () => {
    try {
