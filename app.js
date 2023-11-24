@@ -21,7 +21,7 @@ app.use((err, req, res, next) => {
   res.status(500).send('Internal Server Error');
 });
 // In your server setup
-// app.use("/api/auth",require('./routes/auth')) 
+app.use("/api/auth",require('./routes/auth')) 
 app.get('/api/config', (req, res) => {
   res.json({
     mongoURI: process.env.MONGO1,
