@@ -55,15 +55,22 @@ const login = async (req, res) => {
         );
 
         res.status(200).json({
-            message: "Login successful",
+            message: 'Login successful',
             status: 0,
             data: user,
             accessToken,
-        });
-    } catch (err) {
-        console.error('Error during login:', err);
-        res.status(500).json({ message: "Internal Server Error" });
-    }
+          });
+        } catch (err) {
+          console.error('Error during login:', err);
+      
+          // Send a more informative error response
+          res.status(500).json({
+            message: 'Internal Server Error',
+            status: 1,
+            error: err.message,  // Include the error message for debugging
+          });
+        }
+      
 };
 
 
