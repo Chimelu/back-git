@@ -10,7 +10,7 @@ const newUser = async (req, res) => {
             return res.status(400).json({
                 message: "Password is required",
                 status: 1,
-            });
+            }); 
         }
 
         const passwordString = String(req.body.password);
