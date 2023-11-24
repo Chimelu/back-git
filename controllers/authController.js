@@ -2,7 +2,7 @@ const User = require("../models/User");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv/config')
-const jwtSecret = process.env.JWT_SECRET;
+// const jwtSecret = process.env.JWT_SECRET;
 
 const newUser = async (req, res) => {
     try {
@@ -49,7 +49,7 @@ const login = async (req, res) => {
         if (!isPasswordValid) {
             return res.status(401).json({ message: "Wrong credentials" });
         }
-        console.log('JWT_SECRET:', process.env.JWT_SECRET);    
+          
     //     const accessToken = jwt.sign(
     //         { id: user._id },
     //         jwtSecret,
