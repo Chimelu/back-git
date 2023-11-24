@@ -15,28 +15,24 @@ const getAllTasks =async (req,res)=>{
 } 
 
 
-const jwt = require('jsonwebtoken');
-
-
+// create a new task
 const createTask = async (req, res) => {
   try {
-    // Get user ID from the decoded JWT
-    const authHeader = req.headers['authorization'];
-    const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SEC);
-    const userId = decoded.id;
+    // Assuming the user information is attached to req.user by authMiddleware
+    const userId = req.user.id;
+    
+    // Add user information to the task data
+    const taskData = { ...req.body, user: userId };
 
-    // Create task with user ID
-    const task = await Task.create({ ...req.body, user: userId });
+    // Create the task
+    const task = await Task.create(taskData);
+
     res.status(201).json({ task });
   } catch (err) {
     console.error('Error creating task:', err);
-    res.status(500).json({ msg: err });
+    res.status(500).json({ msg: err.message });
   }
 };
-
-module.exports = { createTask };
-
 
 
 const getTask = async (req, res) => {
