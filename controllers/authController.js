@@ -1,7 +1,6 @@
 const User = require("../models/User");
-require('dotenv').config();
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
 const newUser = async (req, res) => {
     try {
@@ -22,8 +21,6 @@ const newUser = async (req, res) => {
         });
 
         const savedUser = await newUser.save();
-        console.log(savedUser);
-       
 
         res.status(201).json({
             data: savedUser,
@@ -32,44 +29,42 @@ const newUser = async (req, res) => {
         });
     } catch (err) {
         console.error('Error creating user:', err);
-        res.status(500).json({ msg: err.message });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 };
 
 const login = async (req, res) => {
     try {
-        const user = await User.findOne({ username: req.body.username });
+        const { username, password } = req.body;
+        const user = await User.findOne({ username });
 
         if (!user) {
-            return res.status(401).json("Wrong credentials");
+            return res.status(401).json({ message: "Wrong credentials" });
         }
 
-        const passwordString = String(req.body.password);
-        const match = await bcrypt.compare(passwordString, user.password);
+        const isPasswordValid = await bcrypt.compare(String(password), user.password);
 
-        if (!match) {
-            return res.status(401).json('Wrong credentials');
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: "Wrong credentials" });
         }
-        req.session.user = {
-            id: user._id,
-            username: user.username,
-            email: user.email,
-        }
-        const accessToken = jwt.sign({
-            id: user._id,
-            
-        },process.env.JWT_SEC,{expiresIn:"3d"})
+
+        const accessToken = jwt.sign(
+            { id: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: "3d" }
+        );
 
         res.status(200).json({
             message: "Login successful",
             status: 0,
             data: user,
-            accessToken
+            accessToken,
         });
     } catch (err) {
         console.error('Error during login:', err);
-        res.status(500).json({ msg: err.message });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 };
+
 
 module.exports = { newUser, login };
