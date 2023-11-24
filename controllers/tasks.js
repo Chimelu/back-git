@@ -3,7 +3,7 @@ const Task = require('../models/Task')
 // list out all task
 const getAllTasks =async (req,res)=>{
     try{
-        const tasks = await Task.find({})
+      const tasks = await Task.find({ user: req.user.id });
         res.status(200).json({tasks})
 
 
@@ -16,17 +16,24 @@ const getAllTasks =async (req,res)=>{
 
 
 // create a new task
-const createTask= async (req,res)=>{
-    try{
-        const task = await Task.create(req.body)
-        res.status(201).json({task})
+const createTask = async (req, res) => {
+  try {
+    // Assuming the user information is attached to req.user by authMiddleware
+    const userId = req.user.id;
+    
+    // Add user information to the task data
+    const taskData = { ...req.body, user: userId };
 
-    }catch(err){
-        console.error('Error creating task:', err);
-        res.status(500).json({msg: err})
-    }
-   
-}
+    // Create the task
+    const task = await Task.create(taskData);
+
+    res.status(201).json({ task });
+  } catch (err) {
+    console.error('Error creating task:', err);
+    res.status(500).json({ msg: err.message });
+  }
+};
+
 
 const getTask = async (req, res) => {
     try {
@@ -57,7 +64,7 @@ const updateTask = async (req, res) => {
       res.status(200).json({ task });
     } catch (err) {
       res.status(500).json({ msg: err });
-    }
+    } 
   };
   
 

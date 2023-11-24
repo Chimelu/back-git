@@ -17,7 +17,8 @@ const TaskSchema = new mongoose.Schema({
     enum:['urgent','important'],
     required:true
     
-  }
+  },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
  
 })
 
