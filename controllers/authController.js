@@ -53,7 +53,7 @@ const login = async (req, res) => {
             { id: user._id },
             process.env.JWT_SECRET,
             { expiresIn: "3d" }
-        );
+    );
 
         res.status(200).json({
             message: 'Login successful',
@@ -61,15 +61,15 @@ const login = async (req, res) => {
             data: user,
             accessToken,
           });
-        } catch (err) {
-          console.error('Error during login:', err);
-      
-          // Send a more informative error response
-          res.status(500).json({
-            message: 'Internal Server Error',
-            status: 1,
-            error: err.message,  // Include the error message for debugging
-          });
+        } catch (jwtError) {
+            console.error('JWT Signing Error:', jwtError);
+        
+            // Send a more informative error response
+            res.status(500).json({
+                message: 'Internal Server Error',
+                status: 1,
+                error: jwtError.message,  // Include the JWT signing error message for debugging
+            });
         }
       
 };
