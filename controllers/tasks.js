@@ -55,8 +55,6 @@ const getTask = async (req, res) => {
 const updateTask = async (req, res) => {
   try {
     const { id: taskID } = req.params;
-    
-    // Ensure that the task belongs to the signed-in user
     const task = await Task.findOneAndUpdate(
       { _id: taskID, user: req.user.id },
       req.body,
@@ -77,7 +75,6 @@ const deleteTask = async (req, res) => {
   try {
     const { id: taskID } = req.params;
 
-    // Ensure that the task belongs to the signed-in user
     const task = await Task.findOneAndDelete({ _id: taskID, user: req.user.id });
 
     if (!task) {
