@@ -1,6 +1,6 @@
 
 const jwt = require('jsonwebtoken');
-const  User  = require('../models/User'); // Adjust the path as needed
+const  User  = require('../models/User'); 
 require('dotenv').config()
 
 
