@@ -51,7 +51,7 @@ const login = async (req, res) => {
         console.log('JWT_SECRET:', process.env.JWT_SECRET);    
         const accessToken = jwt.sign(
             { id: user._id },
-            1111,
+            JWT_SECRET,
             { expiresIn: "3d" }
     );
 
