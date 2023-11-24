@@ -13,13 +13,14 @@ app.use(express.json());
 
 
 
-//  app.use('/api/v1/tasks',require('./routes/tasks'))
+
  const port = process.env.PORT || 5000;
  // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Internal Server Error');
 });
+
 // In your server setup
 app.use("/api/v1/auth",require('./routes/auth')) 
 app.get('/api/config', (req, res) => {
