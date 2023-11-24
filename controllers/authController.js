@@ -50,17 +50,17 @@ const login = async (req, res) => {
             return res.status(401).json({ message: "Wrong credentials" });
         }
         console.log('JWT_SECRET:', process.env.JWT_SECRET);    
-        const accessToken = jwt.sign(
-            { id: user._id },
-            jwtSecret,
-            { expiresIn: "3d" }
-    );
+    //     const accessToken = jwt.sign(
+    //         { id: user._id },
+    //         jwtSecret,
+    //         { expiresIn: "3d" }
+    // );
 
         res.status(200).json({
             message: 'Login successful',
             status: 0,
             data: user,
-            accessToken,
+            
           });
         } catch (jwtError) {
             console.error('JWT Signing Error:', jwtError);
