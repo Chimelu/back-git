@@ -26,12 +26,18 @@ const newUser = async (req, res) => {
 
         res.status(201).json({
             data: savedUser,
-            message: "User created successfully",
+            message: "User created successfully", 
             status: 0,
         });
-    } catch (err) {
-        console.error('Error creating user:', err);
-        res.status(500).json({ message: "Internal Server Error" });
+    } catch (error) {
+        if (error.name === 'ValidationError') {
+            res.status(400).json({ error: 'Validation failed', details: error.errors });
+          } else {
+            console.error('Error creating user:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+          }
+        console.error('Error creating user:', error);
+        
     }
 };
 
@@ -55,12 +61,13 @@ const login = async (req, res) => {
             jwtSecret,
             { expiresIn: "3d" }
     );
+    res.cookie('jwt',accessToken,{httpOnly:true, sameSite:'None', secure: true,maxAge:24*60*60*1000})
 
         res.status(200).json({
             message: 'Login successful',
             status: 0,
             data: user,
-            
+            accessToken
           });
         } catch (jwtError) {
             console.error('JWT Signing Error:', jwtError);
