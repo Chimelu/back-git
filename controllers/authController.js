@@ -38,20 +38,20 @@ const newUser = async (req, res) => {
         const savedUser = await newUser.save();
 
         // Generate a new JWT token for the user
-        const accessToken = jwt.sign(
+        const ttree = jwt.sign(
             { id: savedUser._id },
             jwtSecret,
             { expiresIn: `${maxAgeInDays}d` }
         );
 
         // Send the token in the response
-        res.cookie('jwt', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: maxAgeMilliseconds });
+        res.cookie('jwt', ttree, { httpOnly: true, sameSite: 'None', secure: true, maxAge: maxAgeMilliseconds });
 
         res.status(201).json({
             data: savedUser,
             message: "User created successfully",
             status: 0,
-            accessToken,
+            ttree,
         });
     } catch (error) {
         if (error.name === 'ValidationError') {
@@ -79,18 +79,18 @@ const login = async (req, res) => {
             return res.status(401).json({ message: "Wrong credentials" });
         }
           
-        const accessToken = jwt.sign(
+        const ttree = jwt.sign(
             { id: user._id },
             jwtSecret,
             { expiresIn: `${maxAgeInDays}d`  }
     );
-    res.cookie('jwt',accessToken,{httpOnly:true, sameSite:'None', secure: true,maxAge:maxAgeMilliseconds})
+    res.cookie('jwt',ttree,{httpOnly:true, sameSite:'None', secure: true,maxAge:maxAgeMilliseconds})
 
         res.status(200).json({
             message: 'Login successful',
             status: 0,
             data: user,
-            accessToken
+            ttree
           });
         } catch (jwtError) {
             console.error('JWT Signing Error:', jwtError);
