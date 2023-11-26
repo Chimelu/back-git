@@ -7,15 +7,20 @@ const userRouter = require('./routes/user')
 const { requireAuth } = require('./middleware/authMiddleware');
 
 const corsOptions = {
-  origin: ["http://localhost:5173","https://task-beta-ruddy.vercel.app","http://127.0.0.1:5500", // localhost public ip
-  "http://localhost:5000",
- "https://taskbac.onrender.com"], // Replace with your React app's URL
-  credentials: true, // Enable credentials (cookies) in CORS
+  origin: [
+    'http://localhost:5173',
+    'https://task-beta-ruddy.vercel.app',
+    'http://127.0.0.1:5500',
+    'http://localhost:5000',
+    'https://taskbac.onrender.com',
+  ],
+  credentials: true,
 };
 app.use(cors(corsOptions));
 
 
 app.use(express.json()); 
+app.use(express.urlencoded({ extended: true }));
 
 
 
