@@ -3,7 +3,7 @@ const app = express();
 const {connectDB,authMiddleware} = require('./db/connect');
 require('dotenv').config();
 const cors = require('cors');
-const userRouter = require('../starter/routes/user')
+const userRouter = require('./routes/user')
 
 const corsOptions = require('./config/corsOptions');
 const { requireAuth } = require('./middleware/authMiddleware');
@@ -16,11 +16,18 @@ app.use(express.json());
 
 
 
- const port = process.env.PORT || 5000;
- // Error handling middleware
+const port = process.env.PORT || 5000;
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Internal Server Error');
+});
+
+app.use((req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  req.token = token;
+  next();
 });
 
 // In your server setup
