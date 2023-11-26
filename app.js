@@ -3,13 +3,15 @@ const app = express();
 const {connectDB,authMiddleware} = require('./db/connect');
 require('dotenv').config();
 const cors = require('cors');
+const userRouter = require('../starter/routes/user')
 
-const corsOptions = require('./config/corsOptions')
+const corsOptions = require('./config/corsOptions');
+const { requireAuth } = require('./middleware/authMiddleware');
 
 
 
 app.use(cors(corsOptions));
-app.use(express.json());
+app.use(express.json()); 
 
 
 
@@ -22,6 +24,7 @@ app.use((err, req, res, next) => {
 });
 
 // In your server setup
+app.use(userRouter);
 app.use("/api/v1/auth",require('./routes/auth')) 
 app.get('/api/config', (req, res) => {
   res.json({
@@ -41,7 +44,7 @@ const start = async () => {
 
     // Use authMiddleware after connecting to the database
     app.use(authMiddleware);
-    app.use('/api/v1/tasks', require('./routes/tasks'));
+    app.use('/api/v1/tasks',requireAuth, require('./routes/tasks'));
 
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)

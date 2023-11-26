@@ -24,7 +24,7 @@ const createTask = async (req, res) => {
     // Add user information to the task data
     const taskData = { ...req.body, user: userId };
 
-    // Create the task
+   
     const task = await Task.create(taskData);
 
     res.status(201).json({ task });
@@ -39,7 +39,6 @@ const getTask = async (req, res) => {
   try {
     const { id: taskID } = req.params;
     
-    // Ensure that the task belongs to the signed-in user
     const task = await Task.findOne({ _id: taskID, user: req.user.id });
 
     if (!task) {
