@@ -5,7 +5,7 @@ const corsOptions = {
   // origin parameter is whoever requested (ex: google.com)
   origin: (origin, callback) => {
  
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+    if (!origin || allowedOrigins.includes(origin)) {
       
       callback(null, true);
     } else {
