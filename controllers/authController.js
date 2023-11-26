@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const bcrypt = require('bcrypt');
+const { json } = require("express");
 const jwt = require('jsonwebtoken');
 require('dotenv/config')
 const jwtSecret = process.env.JWT_SECRET;
@@ -86,12 +87,16 @@ const login = async (req, res) => {
     );
     res.cookie('jwt',ttree,{httpOnly:true, sameSite:'None', secure: true,maxAge:maxAgeMilliseconds})
 
+     databody = json({
+        user: user,
+        ttre: ttree
+    });
+       
         res.status(200).json({
             message: 'Login successful',
             status: 0,
-            data: user,
-            code: "00",
-            ttree
+            data: databody,
+          
           });
         } catch (jwtError) {
             console.error('JWT Signing Error:', jwtError);
