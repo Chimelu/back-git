@@ -45,7 +45,7 @@ const newUser = async (req, res) => {
         );
 
         // Send the token in the response
-        res.cookie('jwt', ttree, { httpOnly: true, sameSite: 'None', secure: true, maxAge: maxAgeMilliseconds });
+        // res.cookie('jwt', ttree, { httpOnly: true, sameSite: 'None', secure: true, maxAge: maxAgeMilliseconds });
 
         res.status(201).json({
             data: savedUser,
