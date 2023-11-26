@@ -4,13 +4,17 @@ const {connectDB,authMiddleware} = require('./db/connect');
 require('dotenv').config();
 const cors = require('cors');
 const userRouter = require('./routes/user')
-
-const corsOptions = require('./config/corsOptions');
 const { requireAuth } = require('./middleware/authMiddleware');
 
-
-
+const corsOptions = {
+  origin: ["http://localhost:5173","https://task-beta-ruddy.vercel.app","http://127.0.0.1:5500", // localhost public ip
+  "http://localhost:5000",
+ "https://taskbac.onrender.com"], // Replace with your React app's URL
+  credentials: true, // Enable credentials (cookies) in CORS
+};
 app.use(cors(corsOptions));
+
+
 app.use(express.json()); 
 
 
