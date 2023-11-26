@@ -41,7 +41,7 @@ const newUser = async (req, res) => {
         const accessToken = jwt.sign(
             { id: savedUser._id },
             jwtSecret,
-            { expiresIn: "3d" }
+            { expiresIn: `${maxAgeInDays}d` }
         );
 
         // Send the token in the response
@@ -82,7 +82,7 @@ const login = async (req, res) => {
         const accessToken = jwt.sign(
             { id: user._id },
             jwtSecret,
-            { expiresIn: "3d" }
+            { expiresIn: `${maxAgeInDays}d`  }
     );
     res.cookie('jwt',accessToken,{httpOnly:true, sameSite:'None', secure: true,maxAge:maxAgeMilliseconds})
 
